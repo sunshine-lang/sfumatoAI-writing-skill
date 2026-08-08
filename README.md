@@ -1,6 +1,7 @@
 # sfumatoAI Writing Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Brand assets: restricted](https://img.shields.io/badge/brand_assets-restricted-lightgrey.svg)](ASSET_LICENSE.md)
 [![Validate Skill](https://github.com/sunshine-lang/sfumatoAI-writing-skill/actions/workflows/validate.yml/badge.svg)](https://github.com/sunshine-lang/sfumatoAI-writing-skill/actions/workflows/validate.yml)
 
 一个面向 AI 小白的小红书知识图文 Skill：把关键词、长文、网页、文件、截图或混合素材，转化为经过资料核验的选题、逐页脚本、统一视觉、多张 3:4 图片和可直接发布的文案。
@@ -92,7 +93,7 @@ RAG。我想给对 AI 感兴趣的小白做一组小红书知识图解。
 
 ## 默认视觉方向
 
-仓库内置的是文字化视觉规范，不包含第三方参考图：
+仓库的默认画风以文字化视觉规范为主，并附带作者本人品牌 IP 预览；不包含第三方参考图：
 
 - 长春花蓝纯色背景；
 - 轻微纸张颗粒；
@@ -104,6 +105,18 @@ RAG。我想给对 AI 感兴趣的小白做一组小红书知识图解。
 - 不使用四角角标和标题文字底板。
 
 用户提供新的风格参考时，Skill 会先进行 A/B 校准，不会复制参考图中的账号、原文或专属版式。
+
+## 可选品牌人物 IP
+
+仓库收录三张作者本人品牌人物图，用来展示同一人物在正面、行走和侧面状态下的统一方式。它们不是所有使用者都能自动套用的通用素材；第三方运行 Skill 时应提供自己的原创或已授权人物参考。
+
+<p align="center">
+  <img src="skills/sfumatoai-writing-skill/assets/ip/sfumato-ip-walking.png" alt="品牌人物行走版" width="31%">
+  <img src="skills/sfumatoai-writing-skill/assets/ip/sfumato-ip-standing.png" alt="品牌人物正面站姿版" width="31%">
+  <img src="skills/sfumatoai-writing-skill/assets/ip/sfumato-ip-profile-walking.png" alt="品牌人物侧面行走版" width="31%">
+</p>
+
+三张图均为 `1086×1448`、严格 3:4 的 AI 辅助重绘。原始参考图及其中的第三方平台标识没有进入本仓库。图片的肖像、品牌和素材权利不属于 MIT License，具体边界见 [ASSET_LICENSE.md](ASSET_LICENSE.md)。
 
 ## 自动验证
 
@@ -133,6 +146,7 @@ skills/sfumatoai-writing-skill/assets/delivery-manifest.template.json
 sfumatoAI-writing-skill/
 ├── README.md
 ├── LICENSE
+├── ASSET_LICENSE.md
 ├── CONTRIBUTING.md
 ├── scripts/
 │   └── check_repository.py
@@ -141,13 +155,25 @@ sfumatoAI-writing-skill/
         ├── SKILL.md
         ├── agents/openai.yaml
         ├── assets/
+        │   ├── delivery-manifest.template.json
+        │   └── ip/
+        │       ├── brand-ip.manifest.json
+        │       ├── LICENSE.txt
+        │       ├── sfumato-ip-walking.png
+        │       ├── sfumato-ip-standing.png
+        │       └── sfumato-ip-profile-walking.png
         ├── references/
+        │   ├── brand-ip.md
+        │   ├── content-standards.md
+        │   ├── delivery-contract.md
+        │   ├── pilot-agent-example.md
+        │   └── visual-system.md
         └── scripts/validate_delivery.py
 ```
 
 ## 素材与版权
 
-本仓库不分发社交媒体截图、人物参考图、商业字体或其他授权不明素材。运行 Skill 时，请只使用你拥有版权、已获授权或许可证允许使用的素材。
+本仓库不分发社交媒体截图、商业字体、原始人物参考图或其他授权不明素材。仓库中的三张品牌人物图由被描绘者本人确认采用，并受 [独立品牌素材条款](ASSET_LICENSE.md) 约束。运行 Skill 时，请只使用你拥有版权、已获授权或许可证允许使用的素材。
 
 本项目与小红书官方无隶属、赞助或背书关系。小红书及相关标识属于其权利人。
 
@@ -157,4 +183,6 @@ sfumatoAI-writing-skill/
 
 ## License
 
-[MIT License](LICENSE) © 2026 sunshine-lang
+软件、脚本、模板和文字文档使用 [MIT License](LICENSE) © 2026 sunshine-lang。
+
+三张人物 IP 图片不属于 MIT，适用 [Brand asset terms](ASSET_LICENSE.md)。
