@@ -1,0 +1,4 @@
+interface:
+  display_name: "sfumatoAI Writing Skill"
+  short_description: "从多模态素材完成选题、核验、脚本、配图和发布文案工作流"
+  default_prompt: "使用 $sfumatoai-writing-skill 分析我提供的素材，先搜索核验并提出选题和页数方案，确认后制作小红书知识图文。"
