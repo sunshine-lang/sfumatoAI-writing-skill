@@ -13,6 +13,7 @@ description: "Turn keywords, long text, articles, URLs, files, screenshots, or m
 
 - 开始选题、研究或写脚本前，读取 [content-standards.md](references/content-standards.md)。
 - 开始风格校准、图像生成或排版前，读取 [visual-system.md](references/visual-system.md)。
+- 当前用户明确要求使用仓库作者的品牌人物，且确认拥有授权时，读取 [brand-ip.md](references/brand-ip.md)；否则不要加载内置人物图片。
 - 开始整理最终文件或验收前，读取 [delivery-contract.md](references/delivery-contract.md)。
 - 需要查看一套已通过用户审核的完整案例时，读取 [pilot-agent-example.md](references/pilot-agent-example.md)。不要默认加载案例。
 
@@ -30,6 +31,7 @@ description: "Turn keywords, long text, articles, URLs, files, screenshots, or m
 10. 不让图像模型负责关键中文。先生成无字底图，再用确定性排版工具叠加最终文字。
 11. 最终交付 1 个推荐标题、2 个备选标题、200 字以内正文、全部图片、来源清单和质检结论。
 12. 未经用户明确授权，不发布笔记、不创建远程仓库、不推送 GitHub，也不覆盖用户已确认的图片。
+13. 仓库内置人物是受限品牌素材，不是通用默认人物。除非当前用户是权利人或已获明确授权，不得把图片送入生成模型、复刻其面部或暗示其为用户品牌。
 
 ## 工作流
 
@@ -112,6 +114,8 @@ description: "Turn keywords, long text, articles, URLs, files, screenshots, or m
 
 若已有已确认视觉系统，直接沿用，不重新发散。使用可用的 `imagegen` 技能处理栅格图生成或编辑，并遵守其保存、版本化和质检规则。
 
+若用户选择已授权的仓库品牌人物，按 [brand-ip.md](references/brand-ip.md) 区分主身份锚点、动作参考和构图参考；不要把公开可见误当成可自由使用。
+
 ### 8. 分离生成与排版
 
 为每页单独生成无字底图。明确标记输入图角色：编辑目标、人物参考、风格参考或构图参考。重复声明不变量和禁止项。
@@ -148,5 +152,6 @@ description: "Turn keywords, long text, articles, URLs, files, screenshots, or m
 - 关键来源无法访问且没有可靠替代；
 - 用户未确认页数或脚本；
 - 必需的人物/品牌参考缺失；
+- 请求使用仓库内置品牌人物，但当前用户的使用权限不明确；
 - 用户要求公开分发但素材版权或许可证不明确；
 - 高风险或不可逆操作需要额外授权。

@@ -1,0 +1,30 @@
+SFUMATOAI BRAND ASSET TERMS
+
+The following files are excluded from the repository's MIT License:
+
+- sfumato-ip-walking.png
+- sfumato-ip-standing.png
+- sfumato-ip-profile-walking.png
+
+These images depict the repository author's own likeness and are included as
+AI-assisted brand previews for repository display and author-authorized
+workflows. To the extent that copyright, related rights, personality rights, or
+other rights subsist in these assets, all such rights are reserved.
+
+No license is granted to reproduce, modify, redistribute, sell, sublicense,
+create derivative works from, train or fine-tune models on, use commercially,
+or use the depicted person's likeness or brand identity without prior written
+permission from the rights holder. Rights provided by applicable law and the
+GitHub Terms of Service are unaffected.
+
+Third-party users of this Skill should provide their own original or authorized
+character references. Public access to this repository is not permission to use
+the bundled likeness.
+
+PROVENANCE DISCLOSURE
+
+The three files are new AI-assisted redraws created for this repository from
+references supplied and authorized by the depicted person. The original
+reference files containing third-party platform marks are not distributed in
+this repository. The redraws contain no visible third-party platform marks;
+they should still be described honestly as AI-assisted when published.

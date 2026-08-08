@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "collection": "sfumatoAI brand IP",
+  "scope": "restricted-brand-preview",
+  "license": "LICENSE.txt",
+  "depicted_person_authorization": "Self-likeness confirmed by the repository owner",
+  "disclosure": "AI-assisted redraws created from author-supplied and authorized references",
+  "source_policy": "Original reference files containing third-party platform marks are not distributed",
+  "assets": [
+    {
+      "file": "sfumato-ip-walking.png",
+      "width": 1086,
+      "height": 1448,
+      "role": "walking composition and environment reference"
+    },
+    {
+      "file": "sfumato-ip-standing.png",
+      "width": 1086,
+      "height": 1448,
+      "role": "primary face, identity, and standing-pose reference"
+    },
+    {
+      "file": "sfumato-ip-profile-walking.png",
+      "width": 1086,
+      "height": 1448,
+      "role": "side-profile walking and outfit reference"
+    }
+  ]
+}
