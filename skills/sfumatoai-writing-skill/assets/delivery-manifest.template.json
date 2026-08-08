@@ -1,0 +1,37 @@
+{
+  "topic": "replace-with-topic",
+  "recommended_title": "replace-with-recommended-title",
+  "alternative_titles": [
+    "replace-with-alternative-one",
+    "replace-with-alternative-two"
+  ],
+  "body": "replace-with-body-under-200-characters",
+  "images": [
+    {
+      "path": "final/page-01-cover.png",
+      "role": "cover"
+    },
+    {
+      "path": "final/page-02.png",
+      "role": "interior"
+    },
+    {
+      "path": "final/page-03.png",
+      "role": "interior"
+    },
+    {
+      "path": "final/page-04.png",
+      "role": "interior"
+    }
+  ],
+  "sources": [
+    {
+      "title": "replace-with-primary-source-one",
+      "url": "https://example.com/source-one"
+    },
+    {
+      "title": "replace-with-primary-source-two",
+      "url": "https://example.com/source-two"
+    }
+  ]
+}
