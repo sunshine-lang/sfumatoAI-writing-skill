@@ -31,6 +31,7 @@ REQUIRED_FILES = (
     SKILL_ROOT / "assets" / "delivery-manifest.template.json",
     SKILL_ROOT / "references" / "content-standards.md",
     SKILL_ROOT / "references" / "delivery-contract.md",
+    SKILL_ROOT / "references" / "xiaohongshu-operations.md",
     SKILL_ROOT / "references" / "pilot-agent-example.md",
     SKILL_ROOT / "references" / "brand-ip.md",
     SKILL_ROOT / "references" / "visual-system.md",

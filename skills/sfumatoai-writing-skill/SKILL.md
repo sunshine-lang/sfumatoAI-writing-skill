@@ -1,6 +1,6 @@
 ---
 name: sfumatoai-writing-skill
-description: "Turn keywords, long text, articles, URLs, files, screenshots, or mixed media into verified Xiaohongshu knowledge-explainer image posts for AI-interested beginners. Use when Codex must analyze the input instead of blindly summarizing it, choose the strongest topic, research ambiguous or technical claims with cross-validation, confirm the page plan and script, calibrate a consistent 3:4 visual style, generate multi-image cards, and deliver one recommended title, two alternatives, a body under 200 characters, sources, and QA results."
+description: "Turn keywords, long text, articles, URLs, files, screenshots, or mixed media into verified Xiaohongshu knowledge-explainer image posts for AI-interested beginners. Use when Codex must analyze the input instead of blindly summarizing it, choose the strongest topic, research ambiguous or technical claims with cross-validation, confirm the page plan and script, calibrate a consistent 3:4 visual style, generate multi-image cards, format concise copy with functional emoji, or recommend evidence-bounded Xiaohongshu topic tags. Deliver one recommended title, two alternatives, a body under 200 characters, sources, and QA results."
 ---
 
 # sfumatoAI Writing Skill
@@ -12,6 +12,7 @@ description: "Turn keywords, long text, articles, URLs, files, screenshots, or m
 ## 按需读取资源
 
 - 开始选题、研究或写脚本前，读取 [content-standards.md](references/content-standards.md)。
+- 开始生成发布正文、优化 Emoji 排版或制定话题策略前，读取 [xiaohongshu-operations.md](references/xiaohongshu-operations.md)。
 - 开始风格校准、图像生成或排版前，读取 [visual-system.md](references/visual-system.md)。
 - 当前用户明确要求使用仓库作者的品牌人物，且确认拥有授权时，读取 [brand-ip.md](references/brand-ip.md)；否则不要加载内置人物图片。
 - 开始整理最终文件或验收前，读取 [delivery-contract.md](references/delivery-contract.md)。
@@ -29,7 +30,7 @@ description: "Turn keywords, long text, articles, URLs, files, screenshots, or m
 8. 使用严格 3:4 竖版。保持同组视觉统一，但不要为了“统一”强迫每页出现相同人物、相同人数或相同构图。
 9. 让图像服务脚本。人物 IP 可出现，也可在内容不需要时缺席。
 10. 不让图像模型负责关键中文。先生成无字底图，再用确定性排版工具叠加最终文字。
-11. 最终交付 1 个推荐标题、2 个备选标题、200 字以内正文、全部图片、来源清单和质检结论。
+11. 最终交付 1 个推荐标题、2 个备选标题、200 字以内正文、与内容匹配的话题建议、全部图片、来源清单和质检结论。正文字符数包含 Emoji、空格和话题，只排除换行。
 12. 未经用户明确授权，不发布笔记、不创建远程仓库、不推送 GitHub，也不覆盖用户已确认的图片。
 13. 仓库内置人物是受限品牌素材，不是通用默认人物。除非当前用户是权利人或已获明确授权，不得把图片送入生成模型、复刻其面部或暗示其为用户品牌。
 
@@ -104,9 +105,11 @@ description: "Turn keywords, long text, articles, URLs, files, screenshots, or m
 - 1 个推荐标题；
 - 2 个备选标题；
 - 1 版正文，少于或等于 200 个字符（不计换行）；
-- 必要时提供建议话题，但不要用话题替代正文。
+- 1 组建议话题；用户要求提升流量、热门话题或运营分析时，补充 1 组 A/B 替换项。
 
-让正文补充图中逻辑，不逐页复述图片。保持“懂行朋友解释”的语气，简洁、克制、可直接发布。
+让正文补充图中逻辑，不逐页复述图片。按“开场钩子 → 核心机制或步骤 → 能力边界 → 话题”分段，使用少量承担导航作用的 Emoji，保持“懂行朋友解释”的语气。
+
+话题热度或流量建议具有时效性。先用当前可用的小红书站内搜索能力采样，再按“精准主题词、学习意图词、内容形式或受众词、泛领域词、可选实验词”组合。区分平台观察、运营推断和因果结论；不要承诺话题可以保证流量。具体执行 [xiaohongshu-operations.md](references/xiaohongshu-operations.md)。
 
 ### 7. 校准视觉
 
@@ -134,6 +137,8 @@ description: "Turn keywords, long text, articles, URLs, files, screenshots, or m
 - 是否出现伪文字、角标、文字底板、水印、品牌标识或无关 UI；
 - 所有图片是否严格 3:4；
 - 正文是否不超过 200 字；
+- Emoji 是否承担分段、步骤或风险提醒作用，而不是装饰性堆叠；
+- 话题是否与正文和图片一致、没有重复或借用无关热门词；
 - 是否保留来源和必要的人类确认边界。
 
 使用 `python3 scripts/validate_delivery.py <manifest.json>` 检查可自动验证的交付项。视觉和事实检查仍需人工逐页完成。

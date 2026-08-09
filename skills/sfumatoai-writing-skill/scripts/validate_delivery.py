@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import struct
 import sys
 from pathlib import Path
@@ -13,6 +14,8 @@ from urllib.parse import urlparse
 
 
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+HASHTAG_PATTERN = re.compile(r"(?:^|[\s，,。.!！?？;；:：、()（）\[\]【】])#([^\s#]+)")
+TOPIC_TRAILING_PUNCTUATION = "，,。.!！?？;；:：、"
 JPEG_SOF_MARKERS = {
     0xC0,
     0xC1,
@@ -88,6 +91,20 @@ def non_newline_length(value: str) -> int:
     return len(value.replace("\r", "").replace("\n", ""))
 
 
+def duplicate_topics(value: str) -> list[str]:
+    """Return duplicate topic tags, treating case-only variants as duplicates."""
+    seen: set[str] = set()
+    duplicates: list[str] = []
+    for match in HASHTAG_PATTERN.finditer(value):
+        topic = match.group(1).rstrip(TOPIC_TRAILING_PUNCTUATION).casefold()
+        if not topic:
+            continue
+        if topic in seen and topic not in duplicates:
+            duplicates.append(topic)
+        seen.add(topic)
+    return duplicates
+
+
 def valid_http_url(value: Any) -> bool:
     if not isinstance(value, str):
         return False
@@ -129,6 +146,12 @@ def validate_manifest(manifest_path: Path) -> list[str]:
     require(isinstance(body, str) and bool(body.strip()), "Body is required.", errors)
     if isinstance(body, str):
         require(non_newline_length(body) <= 200, f"Body exceeds 200 characters: {non_newline_length(body)}.", errors)
+        repeated_topics = duplicate_topics(body)
+        require(
+            not repeated_topics,
+            f"Body contains duplicate topic tags: {', '.join(f'#{topic}' for topic in repeated_topics)}.",
+            errors,
+        )
 
     require(isinstance(images, list) and len(images) >= 4, "At least four images are required.", errors)
     if isinstance(images, list) and images:
