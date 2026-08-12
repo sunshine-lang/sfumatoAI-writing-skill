@@ -15,10 +15,17 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 SKILL_NAME = "sfumatoai-writing-skill"
 SKILL_ROOT = REPO_ROOT / "skills" / SKILL_NAME
 BRAND_ASSET_ROOT = SKILL_ROOT / "assets" / "ip"
+EXAMPLE_ASSET_ROOT = REPO_ROOT / "docs" / "images" / "examples" / "llm"
 BRAND_ASSETS = {
     "sfumato-ip-walking.png": (1086, 1448),
     "sfumato-ip-standing.png": (1086, 1448),
     "sfumato-ip-profile-walking.png": (1086, 1448),
+}
+EXAMPLE_ASSETS = {
+    "page-01-cover.webp": (720, 960),
+    "page-02-tokenization.webp": (720, 960),
+    "page-04-generation.webp": (720, 960),
+    "page-06-verification.webp": (720, 960),
 }
 
 REQUIRED_FILES = (
@@ -39,6 +46,7 @@ REQUIRED_FILES = (
     BRAND_ASSET_ROOT / "brand-ip.manifest.json",
     BRAND_ASSET_ROOT / "LICENSE.txt",
     *(BRAND_ASSET_ROOT / filename for filename in BRAND_ASSETS),
+    *(EXAMPLE_ASSET_ROOT / filename for filename in EXAMPLE_ASSETS),
 )
 
 FORBIDDEN_SKILL_FILES = {
@@ -80,6 +88,32 @@ def png_dimensions(path: Path) -> tuple[int, int]:
     return struct.unpack(">II", header[16:24])
 
 
+def webp_dimensions(path: Path) -> tuple[int, int]:
+    header = path.read_bytes()[:30]
+    if len(header) < 30 or header[:4] != b"RIFF" or header[8:12] != b"WEBP":
+        raise ValueError("invalid WebP header")
+
+    chunk = header[12:16]
+    if chunk == b"VP8X":
+        width = 1 + int.from_bytes(header[24:27], "little")
+        height = 1 + int.from_bytes(header[27:30], "little")
+        return width, height
+    if chunk == b"VP8 ":
+        if header[23:26] != b"\x9d\x01\x2a":
+            raise ValueError("invalid lossy WebP frame header")
+        width = int.from_bytes(header[26:28], "little") & 0x3FFF
+        height = int.from_bytes(header[28:30], "little") & 0x3FFF
+        return width, height
+    if chunk == b"VP8L":
+        if header[20] != 0x2F:
+            raise ValueError("invalid lossless WebP frame header")
+        bits = int.from_bytes(header[21:25], "little")
+        width = (bits & 0x3FFF) + 1
+        height = ((bits >> 14) & 0x3FFF) + 1
+        return width, height
+    raise ValueError(f"unsupported WebP chunk {chunk!r}")
+
+
 def main() -> int:
     errors: list[str] = []
 
@@ -113,6 +147,10 @@ def main() -> int:
     readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     if "[ASSET_LICENSE.md](ASSET_LICENSE.md)" not in readme:
         fail("README.md must link to ASSET_LICENSE.md.", errors)
+    for filename in EXAMPLE_ASSETS:
+        relative_path = f"docs/images/examples/llm/{filename}"
+        if relative_path not in readme:
+            fail(f"README.md must display or link to {relative_path}.", errors)
 
     unexpected_frontmatter = set(frontmatter) - {"name", "description"}
     if unexpected_frontmatter:
@@ -177,6 +215,23 @@ def main() -> int:
         width, height = dimensions
         if width * 4 != height * 3:
             fail(f"Brand image is not strict 3:4: {filename}", errors)
+
+    for filename, expected_dimensions in EXAMPLE_ASSETS.items():
+        path = EXAMPLE_ASSET_ROOT / filename
+        try:
+            dimensions = webp_dimensions(path)
+        except ValueError as exc:
+            fail(f"Invalid example image {filename}: {exc}", errors)
+            continue
+        if dimensions != expected_dimensions:
+            fail(
+                f"Unexpected dimensions for {filename}: {dimensions}, "
+                f"expected {expected_dimensions}",
+                errors,
+            )
+        width, height = dimensions
+        if width * 4 != height * 3:
+            fail(f"Example image is not strict 3:4: {filename}", errors)
 
     try:
         py_compile.compile(

@@ -1,8 +1,9 @@
 # Brand asset terms
 
 The [MIT License](LICENSE) applies to this repository's software, scripts,
-templates, and textual documentation. It does **not** apply to the three PNG
-files under `skills/sfumatoai-writing-skill/assets/ip/`.
+templates, textual documentation, and the example images under
+`docs/images/examples/`. It does **not** apply to the three PNG files under
+`skills/sfumatoai-writing-skill/assets/ip/`.
 
 The complete, portable terms and provenance disclosure are stored beside the
 images in

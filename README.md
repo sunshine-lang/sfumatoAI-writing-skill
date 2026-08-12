@@ -6,44 +6,30 @@
 
 一个面向 AI 小白的小红书知识图文 Skill：把关键词、长文、网页、文件、截图或混合素材，转化为经过资料核验的选题、逐页脚本、统一视觉、多张 3:4 图片和可直接发布的文案。
 
-它的重点不是“把用户投喂的内容压缩成卡片”，而是先判断：**这批素材最值得讲什么？**
+它不会把用户投喂的内容机械压缩成卡片，而是先判断：**这批素材最值得讲什么？**
 
-> 仓库名保留品牌写法 `sfumatoAI-writing-skill`；Codex Skill 的内部标识遵循小写规范，使用 `sfumatoai-writing-skill`。
+## 实际产出示例
 
-## 核心能力
+下面是一组“LLM 到底是什么？”知识图文中的 4 张成品。点击图片可查看原尺寸预览。
 
-- 接收关键词、文章、URL、PDF、文件、截图及多模态组合输入；
-- 先分析选题价值，不盲目摘要；
-- 在提出技术选题前搜索并交叉验证可靠来源；
-- 识别一词多义、营销话术、事实风险和常见误解；
-- 提供 1 个推荐选题与 2 个备选方向；
-- 规划至少 4 张、默认 5–7 张的故事化图文；
-- 先确认选题、页数、脚本和视觉，再生成正式图片；
-- 分离无字底图与确定性中文排版；
-- 使用短段落和功能性 Emoji 生成适合小红书扫读的正文；
-- 在流量分析场景采样当前平台结果，分层推荐匹配内容的话题；
-- 交付 1 个推荐标题、2 个备选标题、200 字内正文、话题、来源与 QA 结果；
-- 自动检查图片数量、3:4 比例、正文长度、重复话题、标题数量和来源数量。
+<p align="center">
+  <a href="docs/images/examples/llm/page-01-cover.webp"><img src="docs/images/examples/llm/page-01-cover.webp" alt="LLM 知识图文封面：LLM 到底是什么" width="46%"></a>
+  <a href="docs/images/examples/llm/page-02-tokenization.webp"><img src="docs/images/examples/llm/page-02-tokenization.webp" alt="LLM 知识图文内页：一句话如何拆分为 Token" width="46%"></a>
+  <br>
+  <a href="docs/images/examples/llm/page-04-generation.webp"><img src="docs/images/examples/llm/page-04-generation.webp" alt="LLM 知识图文内页：模型如何逐步生成 Token" width="46%"></a>
+  <a href="docs/images/examples/llm/page-06-verification.webp"><img src="docs/images/examples/llm/page-06-verification.webp" alt="LLM 知识图文内页：流畅不等于真实" width="46%"></a>
+</p>
 
-## 工作流
+这组图展示的是完整流程中的视觉交付，不只是生成插画：选题与定义先经过核验，再完成故事化拆解、无字底图、确定性中文排版和事实 QA。示例图属于仓库文档，适用 [MIT License](LICENSE)。
 
-```mermaid
-flowchart LR
-    A[解析多模态素材] --> B[初步搜索与范围核验]
-    B --> C[推荐选题与两个备选]
-    C --> D{用户确认}
-    D --> E[深度研究与逐页脚本]
-    E --> F{确认页数与脚本}
-    F --> G[视觉校准]
-    G --> H[无字底图生成]
-    H --> I[确定性文字排版]
-    I --> J[事实与视觉 QA]
-    J --> K[标题、正文、话题、图片与来源交付]
-```
+## 它解决什么问题
 
-Skill 会在关键关卡等待确认，不会拿到素材后直接制图，也不会未经授权自动发布内容。
+- **选题分析**：从素材池中判断最值得发布的知识点，提供 1 个推荐方向和 2 个备选方向；
+- **事实核验**：搜索并交叉验证可靠来源，处理一词多义、营销话术、事实风险和常见误解；
+- **图文制作**：规划默认 5–7 张故事化图文，分离无字底图与确定性中文排版，生成标题、正文和话题；
+- **质量控制**：检查图片数量与比例、正文长度、重复话题、标题数量和来源数量，并保留人工 QA 关卡。
 
-## 安装
+## 快速开始
 
 ### 1. 克隆仓库
 
@@ -54,35 +40,51 @@ cd sfumatoAI-writing-skill
 
 ### 2. 安装到 Codex Skills
 
-把 `skills/sfumatoai-writing-skill` 整个目录复制到你的 Codex Skills 目录：
-
-```text
-~/.codex/skills/sfumatoai-writing-skill/
+```bash
+mkdir -p ~/.codex/skills
+cp -R skills/sfumatoai-writing-skill ~/.codex/skills/
 ```
 
-如果目标目录已存在，请先备份现有版本，再执行替换。
+如果目标目录已存在，请先备份现有版本，再替换目录。
 
-## 使用
+> 仓库名保留品牌写法 `sfumatoAI-writing-skill`；Codex Skill 的内部标识遵循小写规范，使用 `sfumatoai-writing-skill`。
 
-在 Codex 中显式调用：
+### 3. 调用 Skill
 
 ```text
 使用 $sfumatoai-writing-skill 分析我提供的素材，先搜索核验并提出选题和页数方案，确认后制作小红书知识图文。
 ```
 
-也可以直接提供输入：
+也可以从一个关键词开始：
 
 ```text
 RAG。我想给对 AI 感兴趣的小白做一组小红书知识图解。
 ```
 
+或将文章、网页和截图作为素材池：
+
 ```text
 请分析这篇文章和两张截图，告诉我最值得做成小红书图文的知识点。不要直接开始制图。
 ```
 
-## 交付标准
+安装后可用上述 Prompt 进行快速冒烟测试；预期结果应先返回选题方案，而不是直接制图。
 
-每次完整交付应包含：
+## 工作流
+
+```mermaid
+flowchart TD
+    A["素材分析与选题<br/>解析多模态素材 · 初步搜索 · 推荐方向"]
+    B{确认选题与页数}
+    C["研究核验与脚本<br/>交叉验证 · 逐页故事 · 来源记录"]
+    D{确认脚本与视觉}
+    E["视觉生成与排版<br/>A/B 校准 · 无字底图 · 中文排版"]
+    F["QA 与发布交付<br/>事实检查 · 视觉检查 · 标题正文话题"]
+    A --> B --> C --> D --> E --> F
+```
+
+Skill 会在关键关卡等待确认，不会拿到素材后直接制图，也不会未经授权自动发布内容。
+
+## 完整交付包含什么
 
 1. 1 个推荐标题与 2 个备选标题；
 2. 200 字以内正文；
@@ -96,10 +98,7 @@ RAG。我想给对 AI 感兴趣的小白做一组小红书知识图解。
 
 ## 默认视觉方向
 
-仓库的默认画风以文字化视觉规范为主，并附带作者本人品牌 IP 预览；不包含第三方参考图：
-
-- 长春花蓝纯色背景；
-- 轻微纸张颗粒；
+- 长春花蓝纯色背景与轻微纸张颗粒；
 - 复古编辑漫画与手绘故事感；
 - 中等偏粗的炭黑轮廓；
 - 低饱和青绿、橙、奶油和淡珊瑚配色；
@@ -114,12 +113,20 @@ RAG。我想给对 AI 感兴趣的小白做一组小红书知识图解。
 仓库收录三张作者本人品牌人物图，用来展示同一人物在正面、行走和侧面状态下的统一方式。它们不是所有使用者都能自动套用的通用素材；第三方运行 Skill 时应提供自己的原创或已授权人物参考。
 
 <p align="center">
-  <img src="skills/sfumatoai-writing-skill/assets/ip/sfumato-ip-walking.png" alt="品牌人物行走版" width="31%">
-  <img src="skills/sfumatoai-writing-skill/assets/ip/sfumato-ip-standing.png" alt="品牌人物正面站姿版" width="31%">
-  <img src="skills/sfumatoai-writing-skill/assets/ip/sfumato-ip-profile-walking.png" alt="品牌人物侧面行走版" width="31%">
+  <img src="skills/sfumatoai-writing-skill/assets/ip/sfumato-ip-standing.png" alt="品牌人物正面站姿版" width="38%">
+</p>
+
+<details>
+<summary>查看另外两张人物状态图及授权说明</summary>
+
+<p align="center">
+  <img src="skills/sfumatoai-writing-skill/assets/ip/sfumato-ip-walking.png" alt="品牌人物行走版" width="38%">
+  <img src="skills/sfumatoai-writing-skill/assets/ip/sfumato-ip-profile-walking.png" alt="品牌人物侧面行走版" width="38%">
 </p>
 
 三张图均为 `1086×1448`、严格 3:4 的 AI 辅助重绘。原始参考图及其中的第三方平台标识没有进入本仓库。图片的肖像、品牌和素材权利不属于 MIT License，具体边界见 [ASSET_LICENSE.md](ASSET_LICENSE.md)。
+
+</details>
 
 ## 自动验证
 
@@ -135,15 +142,12 @@ python3 scripts/check_repository.py
 python3 skills/sfumatoai-writing-skill/scripts/validate_delivery.py /absolute/path/to/manifest.json
 ```
 
-交付清单模板位于：
-
-```text
-skills/sfumatoai-writing-skill/assets/delivery-manifest.template.json
-```
-
-自动检查不能替代事实审查和视觉检查。
+交付清单模板位于 `skills/sfumatoai-writing-skill/assets/delivery-manifest.template.json`。自动检查不能替代事实审查和视觉检查。
 
 ## 仓库结构
+
+<details>
+<summary>展开完整目录</summary>
 
 ```text
 sfumatoAI-writing-skill/
@@ -151,6 +155,7 @@ sfumatoAI-writing-skill/
 ├── LICENSE
 ├── ASSET_LICENSE.md
 ├── CONTRIBUTING.md
+├── docs/images/examples/llm/
 ├── scripts/
 │   └── check_repository.py
 └── skills/
@@ -160,11 +165,6 @@ sfumatoAI-writing-skill/
         ├── assets/
         │   ├── delivery-manifest.template.json
         │   └── ip/
-        │       ├── brand-ip.manifest.json
-        │       ├── LICENSE.txt
-        │       ├── sfumato-ip-walking.png
-        │       ├── sfumato-ip-standing.png
-        │       └── sfumato-ip-profile-walking.png
         ├── references/
         │   ├── brand-ip.md
         │   ├── content-standards.md
@@ -174,6 +174,8 @@ sfumatoAI-writing-skill/
         │   └── xiaohongshu-operations.md
         └── scripts/validate_delivery.py
 ```
+
+</details>
 
 ## 素材与版权
 
@@ -187,6 +189,6 @@ sfumatoAI-writing-skill/
 
 ## License
 
-软件、脚本、模板和文字文档使用 [MIT License](LICENSE) © 2026 sunshine-lang。
+软件、脚本、模板、文字文档和 `docs/images/examples/` 下的示例图使用 [MIT License](LICENSE) © 2026 sunshine-lang。
 
 三张人物 IP 图片不属于 MIT，适用 [Brand asset terms](ASSET_LICENSE.md)。
